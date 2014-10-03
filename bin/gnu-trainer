@@ -54,7 +54,7 @@ function install_emacs() {
 	if_which brew 'brew install --cocoa --srgb emacs' ||
 	if_which port 'sudo port install emacs-app' ||
 	NO_PKG_MANAGER=TRUE
-	
+
 	if [ x"TRUE" == x"$NO_PKG_MANAGER" ]; then
 	    if_which ruby 'ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"' ||
 	    (echo "Could not find ruby, needed to install Homebrew emacs. Bailing out." >&2; exit 2)
@@ -62,14 +62,14 @@ function install_emacs() {
 	    if_which brew 'brew install --cocoa --srgb emacs' ||
 	    (echo "Could not find nor install package manager. Bailing out." >&2 ; exit 2)
 	 fi
-    elif [ x"Linux" == x"$OS" ]; then		
+    elif [ x"Linux" == x"$OS" ]; then
 	# In or original version, we looked at '/etc/os-release' if available,
 	# and then the myriad 'redhat-release', 'debian_release', etc. But
 	# really more efficient and (almost) as safe just to look for the
 	# package managers.
-	if_which zypper 'sudo zypper install -y emacs' ||
-	if_which apt-get 'sudo apt-get -y install emacs' ||
-	if_which yum 'sudo yum -y install emacs' ||
+	if_which zypper 'sudo zypper install -y emacs vcsh' ||
+	if_which apt-get 'sudo apt-get -y install emacs vcsh' ||
+	if_which yum 'sudo yum -y install emacs vcsh' ||
 	if_which urpmi --force --auto emacs ||
 	(echo "Could not find a supported package manager to install emacs. Bailing out." >&2; exit 2)
     fi
@@ -136,7 +136,7 @@ $EMACS_23_SETUP
 ; activate all the packages (in particular autoloads)
 (package-initialize)
 
-; fetch the list of packages available 
+; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 
